@@ -7,7 +7,7 @@ jobs:
   setup:
     runs-on: ubuntu-latest
     steps:
-      - uses: ./.github/workflows/supported-versions.yml@main
+      - uses: looker-open-source/.github/.github/workflows/supported-versions.yml@main
   test:
     name: test - ${{ matrix.looker }}
     needs: setup
