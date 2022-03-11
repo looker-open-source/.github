@@ -1,0 +1,50 @@
+# To use this do the following...
+#
+# As the first job, add the call to this workflow...
+#
+#     uses: looker-open-source/support-versions.yml@main
+#
+# For subsequent jobs add a needs: checkfiles clause, or add it to an array if
+# there already is a call like that. Then use the output of supported-versions in an
+# if clause.:
+#
+# jobs:
+#   supported-versions:
+#     uses: looker-open-source/supported-versions.yml@main
+#   job1:
+#     needs: supported-versions
+#     runs-on: ubuntu-latest
+#     strategy:
+#     matrix:
+#       looker: ${{ fromJson(needs.supported-versions.outputs.matrix_json) }}
+#
+#     steps:
+
+
+name: Supported Looker Versions
+on:
+  workflow_call:
+    outputs:
+      matrix_json:
+        description: "Supported Versions as a JSON Array"
+        value: ${{ jobs.supported_versions.outputs.matrix }}
+jobs:
+  supported_versions:
+    runs-on: ubuntu-latest
+    outputs:
+      matrix: ${{ steps.set-matrix.outputs.matrix }}
+
+    steps:
+      - name: Set Matrix
+        id: set-matrix
+        run: |
+          read -r -d '' VERSION_JSON <<- EOF
+          [
+            "21_18",
+            "21_20",
+            "22_0",
+            "22_2",
+            "22_4"
+          ]
+          EOF
+          echo "::set-output name=matrix::${VERSION_JSON}"
