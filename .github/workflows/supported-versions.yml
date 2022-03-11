@@ -38,13 +38,4 @@ jobs:
       - name: Set Matrix
         id: set-matrix
         run: |
-          read -r -d '' VERSION_JSON <<- EOF
-          [
-            "21_18",
-            "21_20",
-            "22_0",
-            "22_2",
-            "22_4"
-          ]
-          EOF
-          echo "::set-output name=matrix::${VERSION_JSON}"
+          echo "::set-output name=matrix::[\"21_18\",\"21_20\",\"22_0\",\"22_2\",\"22_4\"]"
