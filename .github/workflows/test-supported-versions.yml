@@ -1,0 +1,21 @@
+
+name: test supported versions
+on:
+  workflow_dispatch:
+
+jobs:
+  setup:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: looker-open-source/supported-versions.yml@main
+  test:
+    name: test - ${{ matrix.looker }}
+    needs: setup
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        looker: ${{ fromJson(needs.setup.outputs.matrix_json) }}
+
+    steps:
+      - name: Run a one-line script
+        run: echo Hello, ${{ matrix.looker }}
