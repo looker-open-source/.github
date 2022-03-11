@@ -17,5 +17,7 @@ jobs:
         looker: ${{ fromJson(needs.setup.outputs.matrix_json) }}
 
     steps:
+      - name: Repo Checkout
+        uses: actions/checkout@v2
       - name: Run a one-line script
         run: echo Hello, ${{ matrix.looker }}
