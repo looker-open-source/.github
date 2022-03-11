@@ -2,24 +2,33 @@
 #
 # As the first job, add the call to this workflow...
 #
-#     uses: looker-open-source/support-versions.yml@main
+#     uses: looker-open-source/.github/.github/workflows/support-versions.yml@v1
 #
 # For subsequent jobs add a needs: checkfiles clause, or add it to an array if
-# there already is a call like that. Then use the output of supported-versions in an
-# if clause.:
+# there already is a call like that. Then use the output of supported-versions in
+# a matrix config
+#
+# name: test supported versions
+# on:
+#   workflow_dispatch:
 #
 # jobs:
-#   supported-versions:
-#     uses: looker-open-source/supported-versions.yml@main
-#   job1:
-#     needs: supported-versions
+#   setup:
+#     uses: looker-open-source/.github/.github/workflows/supported-versions.yml@main
+#
+#   test:
+#     name: test - ${{ matrix.looker }}
+#     needs: setup
 #     runs-on: ubuntu-latest
 #     strategy:
-#     matrix:
-#       looker: ${{ fromJson(needs.supported-versions.outputs.matrix_json) }}
+#       matrix:
+#         looker: ${{ fromJson(needs.setup.outputs.matrix_json) }}
 #
 #     steps:
-
+#       - name: Repo Checkout
+#         uses: actions/checkout@v2
+#       - name: Run a one-line script
+#         run: echo Hello, ${{ matrix.looker }}
 
 name: Supported Looker Versions
 on:
